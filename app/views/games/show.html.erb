@@ -1,5 +1,9 @@
 <p id="notice"><%= notice %></p>
 
+<% if @game.x_user_id == nil || @game.o_user_id == nil? %>
+  Waiting for another player to join
+<% end %>
+
 <p>
   <b>X user:</b>
   <%= @game.x_user_id %>
@@ -13,7 +17,42 @@
 <p>
   <b>Board:</b>
   <%= @game.board %>
+
+  <table >
+    <% (0..2).each do |y| %>
+      <tr>
+        <% (0..2).each do |x| %>
+          <td style="border: 1px solid black;">
+            
+            <% elem = @game.board[(y*3+x)] %>
+
+            <% if elem.present? %>
+              <%= elem %>
+            <% else %>
+              <%= link_to "move here", edit_game_path({x: x, y:y}) if @game.continue? %>
+            <% end %>
+
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+
 </p>
+
+<p>
+  <b>Status: </b>
+
+  <% if @status.keys[0] == :win %>
+    The winner is 
+    <%= @status[:win] %>
+  <% elsif @game.cat? %>
+    Cat. No more moves to make!
+  <% else %>
+    make your move...
+  <% end %>
+</p>
+
 
 
 <%= link_to 'Edit', edit_game_path(@game) %> |

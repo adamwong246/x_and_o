@@ -14,6 +14,8 @@ class GamesController < ApplicationController
   # GET /games/1.json
   def show
     @game = Game.find(params[:id])
+    @status = @game.win_cat_or_else
+    
 
     respond_to do |format|
       format.html # show.html.erb
@@ -24,6 +26,18 @@ class GamesController < ApplicationController
   # GET /games/new
   # GET /games/new.json
   def new
+    @game = Game
+      .where(o_user_id: nil)
+      .where('x_user_id <> ?', current_user.id)  
+      .first
+
+    if @game.present?
+      @game.o_user_id = current_user.id
+      @game.save
+      redirect_to game_path(@game)
+      return
+    end
+
     @game = Game.new
 
     respond_to do |format|
@@ -44,7 +58,7 @@ class GamesController < ApplicationController
 
     respond_to do |format|
       if @game.save
-        format.html { redirect_to @game, notice: 'Game was successfully created.' }
+        format.html { redirect_to @game, notice: 'Game was successfully created. Keep refreshing... ' }
         format.json { render json: @game, status: :created, location: @game }
       else
         format.html { render action: "new" }
