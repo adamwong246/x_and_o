@@ -6,6 +6,16 @@ class Game < ActiveRecord::Base
 
   scope :waiting, where(o_user_id: nil)
 
+  def cat?
+    if board.delete(' ').length >= 9
+      return :cat
+    end
+  end
+
+  def continue?
+    win_cat_or_else.keys[0] == :continue
+  end
+
   def win_cat_or_else
     array = Array.new(3) { Array.new(3) }
 
@@ -29,7 +39,7 @@ class Game < ActiveRecord::Base
       end
     end
 
-    if board.delete(' ').length >= 9
+    if cat?
       return :cat
     else
       if board.count("x") > board.count("o")
