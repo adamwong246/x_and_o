@@ -1,2 +1,5 @@
 <%# add navigation links to this file %>
 <%= link_to "sign in", new_user_session_path %>
+<% if current_user %>
+  <% link_to "games", games_path %>
+<% end %>
