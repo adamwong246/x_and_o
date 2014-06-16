@@ -2,9 +2,9 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :x_user_id %>
-    <%= f.input :o_user_id %>
-    <%= f.input :board %>
+    <%= f.number_field :x_user_id, value: current_user.id %>
+    <%#= f.input :o_user_id %>
+    <%#= f.input :board %>
   </div>
 
   <div class="form-actions">
