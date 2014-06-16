@@ -8,6 +8,11 @@ describe Game do
       game.win_cat_or_else.should eq({win: :x})
     end
 
+    it "should know a win" do
+      game = Game.new(board: 'xx oooxx ')
+      game.win_cat_or_else.should eq({win: :o})
+    end
+
     it "should know a stalemate" do
       game = Game.new(board: 'xxoooxxox')
       game.win_cat_or_else.should eq( :cat )
