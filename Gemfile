@@ -24,6 +24,7 @@ end
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
+  gem 'pry-debugger'
 end
 group :test do
   gem 'capybara'
